@@ -14,30 +14,30 @@ st.markdown("""
     .title-glow { text-align: center !important; color: #ffffff !important; text-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b, 0 0 30px #ff4b4b !important; font-family: 'Arial Black', sans-serif !important; font-size: 38px !important; margin-bottom: 10px !important; line-height: 1.2 !important; }
     .subtitle-glow { text-align: center !important; color: #00ffcc !important; text-shadow: 0 0 8px #00ffcc !important; font-weight: bold !important; font-size: 18px !important; margin-bottom: 40px !important; }
     
-    /* 🚨 종목별 제목 강제 스타일링 (스트림릿 간섭 차단용) */
-    .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 28px !important; font-weight: 900 !important; margin-bottom: 10px !important; }
-    .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 28px !important; font-weight: 900 !important; margin-bottom: 10px !important; }
-    .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 28px !important; font-weight: 900 !important; margin-bottom: 10px !important; }
+    /* 🚨 종목별 제목 강제 스타일링 (글자 크기를 42px로 대폭 확대!) */
+    .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; }
+    .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; }
+    .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; }
 
     /* HTML 표(Table) 스타일링 */
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 10px; }
-    th { background-color: #262730 !important; color: #ffffff !important; font-size: 20px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 20px; }
+    th { background-color: #262730 !important; color: #ffffff !important; font-size: 22px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; }
     td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 18px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; }
     
     /* 1,2,3위 글자 크기와 색상 강조 */
-    tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 30px !important; text-shadow: 0 0 10px #ffd70055 !important; }
-    tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 24px !important; }
-    tbody tr:nth-child(3) td { color: #cd7f32 !important; font-size: 20px !important; }
+    tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 32px !important; text-shadow: 0 0 10px #ffd70055 !important; }
+    tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 26px !important; }
+    tbody tr:nth-child(3) td { color: #cd7f32 !important; font-size: 22px !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# 2. 메인 타이틀 (h1 태그 대신 div 태그를 사용하여 간섭 차단)
+# 2. 메인 타이틀
 st.markdown("<div class='title-glow'>👑 금손 3종 경기 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
 
 # ==========================================
 # 🚨 구글 시트 CSV 링크 (단 1개)
-URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQV-2yxMLZLhS3qZEFNVGO4UsOS0vIl0SbDOQJ9smkAt5TEfY5h-3h4puEl5ROBotqOqxuv2-NX6mxd/pub?output=csv"
+URL_SHEET = "여기에_구글시트_CSV_링크를_붙여넣으세요"
 # ==========================================
 
 # 3. 구글 시트 데이터 불러오기 함수 (5초마다 새로고침)
