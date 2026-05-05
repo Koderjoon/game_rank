@@ -68,6 +68,11 @@ def get_data_from_gsheets(url):
 
 df_total = get_data_from_gsheets(URL_SHEET)
 
+# 5. 수동 새로고침 버튼 추가 (맨 아래)
+if st.button("🔄 최신 기록으로 새로고침"):
+    st.cache_data.clear() # 캐시(저장된 옛날 데이터)를 강제로 비우기
+    st.rerun() # 화면 즉시 새로고침
+    
 # 4. 세로로 렌더링
 if df_total is not None and len(df_total.columns) >= 9:
     
@@ -98,7 +103,4 @@ if df_total is not None and len(df_total.columns) >= 9:
 else:
     st.error("구글 시트 링크를 잘못 입력했거나, 시트의 열(Column) 개수가 9개가 아닙니다. 확인해주세요!")
 
-# 5. 수동 새로고침 버튼 추가 (맨 아래)
-if st.button("🔄 최신 기록으로 새로고침"):
-    st.cache_data.clear() # 캐시(저장된 옛날 데이터)를 강제로 비우기
-    st.rerun() # 화면 즉시 새로고침
+
