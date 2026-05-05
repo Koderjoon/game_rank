@@ -7,22 +7,22 @@ st.set_page_config(page_title="전치제 금손 3종 랭킹", page_icon="👑", 
 # --- CSS 스타일링 ---
 st.markdown("""
     <style>
-    /* 전체 배경을 강제로 다크 모드로 고정 */
+    /* 전체 배경 다크 모드 */
     .stApp { background-color: #0e1117 !important; }
     
-    /* 메인 타이틀 */
+    /* 타이틀 및 서브타이틀 */
     .title-glow { text-align: center !important; color: #ffffff !important; text-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b, 0 0 30px #ff4b4b !important; font-family: 'Arial Black', sans-serif !important; font-size: 38px !important; margin-bottom: 10px !important; line-height: 1.2 !important; }
     .subtitle-glow { text-align: center !important; color: #00ffcc !important; text-shadow: 0 0 8px #00ffcc !important; font-weight: bold !important; font-size: 18px !important; margin-bottom: 40px !important; }
     
-    /* 🚨 종목별 제목 강제 스타일링 (글자 크기를 42px로 대폭 확대!) */
+    /* 종목별 제목 (크기 확대 42px) */
     .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; }
     .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; }
     .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; }
 
-    /* HTML 표(Table) 스타일링 */
+    /* HTML 표(Table) 스타일링 - 🚨 글씨 두 줄 방지 추가! */
     table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 20px; }
-    th { background-color: #262730 !important; color: #ffffff !important; font-size: 22px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; }
-    td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 18px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; }
+    th { background-color: #262730 !important; color: #ffffff !important; font-size: 22px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
+    td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 18px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
     
     /* 1,2,3위 글자 크기와 색상 강조 */
     tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 32px !important; text-shadow: 0 0 10px #ffd70055 !important; }
@@ -54,12 +54,11 @@ df_total = load_data(URL_SHEET)
 # 4. 세로로 나란히 렌더링
 if df_total is not None and len(df_total.columns) >= 9:
     
-    # 데이터 분리
     data_water = df_total.iloc[:, 0:3].copy()
     data_dart  = df_total.iloc[:, 3:6].copy()
     data_click = df_total.iloc[:, 6:9].copy()
 
-    # 열(Column) 이름 강제 고정 ('.1', '.2' 제거)
+    # 열 이름 통일 (.1, .2 제거)
     data_water.columns = ["순위", "이름(소속)", "오차(g)"]
     data_dart.columns  = ["순위", "이름(소속)", "합산점수"]
     data_click.columns = ["순위", "이름(소속)", "클릭수"]
