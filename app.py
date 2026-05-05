@@ -37,7 +37,7 @@ st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학
 
 # ==========================================
 # 🚨 구글 시트 CSV 링크 (단 1개)
-URL_SHEET = "여기에_구글시트_CSV_링크를_붙여넣으세요"
+URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQV-2yxMLZLhS3qZEFNVGO4UsOS0vIl0SbDOQJ9smkAt5TEfY5h-3h4puEl5ROBotqOqxuv2-NX6mxd/pub?output=csv"
 # ==========================================
 
 # 3. 구글 시트 데이터 불러오기 함수 (5초마다 새로고침)
