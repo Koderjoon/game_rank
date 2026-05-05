@@ -59,7 +59,7 @@ if df_total is not None and len(df_total.columns) >= 9:
     data_click = df_total.iloc[:, 6:9].copy()
 
     # 열 이름 통일 (.1, .2 제거)
-    data_water.columns = ["순위", "이름(소속)", "오차(g)"]
+    data_water.columns = ["순위", "이름(소속)", "무게(g)"]
     data_dart.columns  = ["순위", "이름(소속)", "합산점수"]
     data_click.columns = ["순위", "이름(소속)", "클릭수"]
 
