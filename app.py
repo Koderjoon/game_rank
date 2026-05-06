@@ -19,10 +19,9 @@ components.html(
     width=0
 )
 
-# --- CSS 스타일링 (여백 축소 및 가로 폭 유연화) ---
+# --- CSS 스타일링 ---
 st.markdown("""
     <style>
-    /* 전체 컨테이너 여백 축소 */
     .block-container {
         width: 100% !important;
         max-width: 500px !important;
@@ -50,7 +49,7 @@ st.markdown("""
         text-shadow: 0 0 8px #00ffcc !important; 
         font-weight: bold !important; 
         font-size: 16px !important; 
-        margin-bottom: 20px !important; 
+        margin-bottom: 15px !important; 
         white-space: nowrap !important;
     }
     
@@ -59,7 +58,7 @@ st.markdown("""
         color: #ffeb3b !important;
         font-size: 13px !important;
         font-weight: bold !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 20px !important;
         background-color: rgba(255, 235, 59, 0.1);
         padding: 8px;
         border-radius: 8px;
@@ -67,15 +66,19 @@ st.markdown("""
         line-height: 1.4;
     }
     
-    /* 종목별 제목 (여백 대폭 축소) */
+    /* 탭 메뉴 글씨 크기 조절 */
+    .stTabs [data-baseweb="tab-list"] button {
+        font-size: 16px !important;
+        font-weight: bold !important;
+    }
+
     .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 34px !important; font-weight: 900 !important; margin-bottom: 8px !important; white-space: nowrap !important; }
     .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 34px !important; font-weight: 900 !important; margin-bottom: 8px !important; white-space: nowrap !important; }
     .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 34px !important; font-weight: 900 !important; margin-bottom: 8px !important; white-space: nowrap !important; }
 
-    /* 🚨 표(Table) 스타일링 - 가로폭 고정 해제 */
     table { 
         width: 100% !important; 
-        table-layout: auto !important; /* 자동 너비 조절로 변경 */
+        table-layout: auto !important; 
         border-collapse: collapse; 
         margin-top: 0px; 
         margin-bottom: 15px; 
@@ -84,23 +87,9 @@ st.markdown("""
     th { background-color: #262730 !important; color: #ffffff !important; font-size: 16px !important; padding: 10px 5px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
     td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 12px 5px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
     
-    /* 1,2,3위 강조 */
-    tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 24px !important; text-shadow: 0 0 10px #ffd70055 !important; }
-    tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 20px !important; }
+    tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 20px !important; text-shadow: 0 0 10px #ffd70055 !important; }
+    tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 18px !important; }
     tbody tr:nth-child(3) td { color: #cd7f32 !important; font-size: 17px !important; }
-    
-    /* 새로고침 버튼 크기 조정 */
-    div.stButton > button:first-child {
-        background-color: #262730 !important;
-        color: white !important;
-        font-size: 16px !important;
-        font-weight: bold !important;
-        height: 45px !important;
-        width: 100% !important;
-        border-radius: 10px !important;
-        border: 1px solid #444444 !important;
-        margin-bottom: 15px !important;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -108,7 +97,6 @@ st.markdown("""
 st.markdown("<div class='title-glow'>👑 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
 
-# 새로고침 안내 문구
 st.markdown("""
     <div class='refresh-notice'>
         🔄 최신 랭킹을 보려면 페이지를 새로고침 해주세요!<br>
@@ -129,31 +117,47 @@ def get_data_from_gsheets(url):
 
 df_total = get_data_from_gsheets(URL_SHEET)
 
-# 4. 데이터 렌더링
+# 3. 탭 생성
+tabs = st.tabs(["전체 종목", "양치컵 333g", "다트 양궁", "15초 광클"])
+
 if df_total is not None and len(df_total.columns) >= 9:
+    # 데이터 분리
     data_water = df_total.iloc[:, 0:3].copy()
     data_dart  = df_total.iloc[:, 3:6].copy()
     data_click = df_total.iloc[:, 6:9].copy()
 
+    # 열 이름 강제 설정
     data_water.columns = ["순위", "이름(소속)", "무게(g)"]
     data_dart.columns  = ["순위", "이름(소속)", "합산점수"]
     data_click.columns = ["순위", "이름(소속)", "클릭수"]
 
-    # --- 1번 종목 ---
-    st.divider()
-    st.markdown("<div class='game-title-water'>💧 양치컵 333g </div>", unsafe_allow_html=True)
-    st.markdown(data_water.to_html(index=False, escape=False), unsafe_allow_html=True)
+    # --- 탭 1: 전체 종목 (TOP 3만 표시) ---
+    with tabs[0]:
+        st.markdown("<div class='game-title-water'>💧 양치컵 333g </div>", unsafe_allow_html=True)
+        st.markdown(data_water.head(3).to_html(index=False, escape=False), unsafe_allow_html=True)
+        
+        st.divider()
+        st.markdown("<div class='game-title-dart'>🎯 다트 양궁</div>", unsafe_allow_html=True)
+        st.markdown(data_dart.head(3).to_html(index=False, escape=False), unsafe_allow_html=True)
+        
+        st.divider()
+        st.markdown("<div class='game-title-click'>🖱️ 15초 광클</div>", unsafe_allow_html=True)
+        st.markdown(data_click.head(3).to_html(index=False, escape=False), unsafe_allow_html=True)
 
-    # --- 2번 종목 ---
-    st.divider()
-    st.markdown("<div class='game-title-dart'>🎯 다트 양궁</div>", unsafe_allow_html=True)
-    st.markdown(data_dart.to_html(index=False, escape=False), unsafe_allow_html=True)
+    # --- 탭 2: 양치컵 (전체 순위) ---
+    with tabs[1]:
+        st.markdown("<div class='game-title-water'>💧 양치컵 333g 전체 랭킹</div>", unsafe_allow_html=True)
+        st.markdown(data_water.to_html(index=False, escape=False), unsafe_allow_html=True)
 
-    # --- 3번 종목 ---
-    st.divider()
-    st.markdown("<div class='game-title-click'>🖱️ 15초 광클</div>", unsafe_allow_html=True)
-    st.markdown(data_click.to_html(index=False, escape=False), unsafe_allow_html=True)
-    st.divider()
+    # --- 탭 3: 다트 양궁 (전체 순위) ---
+    with tabs[2]:
+        st.markdown("<div class='game-title-dart'>🎯 다트 양궁 전체 랭킹</div>", unsafe_allow_html=True)
+        st.markdown(data_dart.to_html(index=False, escape=False), unsafe_allow_html=True)
+
+    # --- 탭 4: 15초 광클 (전체 순위) ---
+    with tabs[3]:
+        st.markdown("<div class='game-title-click'>🖱️ 15초 광클 전체 랭킹</div>", unsafe_allow_html=True)
+        st.markdown(data_click.to_html(index=False, escape=False), unsafe_allow_html=True)
 
 else:
     st.error("데이터를 불러올 수 없습니다. 구글 시트 링크나 형식을 확인해 주세요!")
