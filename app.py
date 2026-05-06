@@ -53,8 +53,22 @@ st.markdown("""
         text-shadow: 0 0 8px #00ffcc !important; 
         font-weight: bold !important; 
         font-size: 16px !important; 
-        margin-bottom: 30px !important; 
+        margin-bottom: 15px !important; 
         white-space: nowrap !important;
+    }
+    
+    /* 🚨 새로고침 안내 문구 스타일 */
+    .refresh-notice {
+        text-align: center !important;
+        color: #ffeb3b !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        margin-bottom: 25px !important;
+        background-color: rgba(255, 235, 59, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px dashed #ffeb3b;
+        line-height: 1.5;
     }
     
     /* 종목별 제목 */
@@ -62,10 +76,10 @@ st.markdown("""
     .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 38px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
     .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 38px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
 
-    /* 🚨 HTML 표(Table) 강제 고정 스타일링 (데이터 길이에 따라 안 변함!) */
+    /* HTML 표(Table) 강제 고정 스타일링 */
     table { 
         width: 100% !important; 
-        table-layout: fixed !important; /* 표 너비 요동침 방지 */
+        table-layout: fixed !important; 
         border-collapse: collapse; 
         margin-top: 5px; 
         margin-bottom: 20px; 
@@ -79,7 +93,7 @@ st.markdown("""
     th { background-color: #262730 !important; color: #ffffff !important; font-size: 17px !important; padding: 12px 5px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
     td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 15px 5px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
     
-    /* 1,2,3위 글씨 크기 조정 (모바일에 딱 맞게 최적화) */
+    /* 1,2,3위 글씨 크기 조정 */
     tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 26px !important; text-shadow: 0 0 10px #ffd70055 !important; }
     tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 22px !important; }
     tbody tr:nth-child(3) td { color: #cd7f32 !important; font-size: 18px !important; }
@@ -106,6 +120,19 @@ st.markdown("""
 # 2. 메인 제목 영역
 st.markdown("<div class='title-glow'>👑 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
+
+# 🚨 변경된 새로고침 안내 문구 (서버 환경 안내는 글씨 크기와 색상을 조절해 더 깔끔하게!)
+st.markdown("""
+    <div class='refresh-notice'>
+        🔄 최신 랭킹을 보려면 페이지를 새로고침 해주세요!<br>
+        <span style='font-size: 12px; font-weight: normal; color: #dddddd;'>서버 환경에 따라 1~2분 정도 반영이 늦을 수 있습니다.</span>
+    </div>
+""", unsafe_allow_html=True)
+
+# 3. 새로고침 버튼 
+if st.button("새로고침"):
+    st.cache_data.clear()
+    st.rerun()
 
 # ==========================================
 # 🚨 실제 구글 시트 CSV 링크
