@@ -7,7 +7,6 @@ st.set_page_config(page_title="전치제 금손 3종 랭킹", page_icon="👑", 
 # --- 모바일 확대/축소 허용 및 CSS 스타일링 ---
 st.markdown("""
     <script>
-        // 모바일 브라우저의 뷰포트 설정을 변경하여 확대/축소를 허용함
         var viewport = document.querySelector("meta[name=viewport]");
         if (viewport) {
             viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
@@ -17,18 +16,35 @@ st.markdown("""
     /* 전체 배경 다크 모드 고정 */
     .stApp { background-color: #0e1117 !important; }
     
-    /* 메인 타이틀 및 서브타이틀 */
-    .title-glow { text-align: center !important; color: #ffffff !important; text-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b, 0 0 30px #ff4b4b !important; font-family: 'Arial Black', sans-serif !important; font-size: 38px !important; margin-bottom: 10px !important; line-height: 1.2 !important; }
-    .subtitle-glow { text-align: center !important; color: #00ffcc !important; text-shadow: 0 0 8px #00ffcc !important; font-weight: bold !important; font-size: 18px !important; margin-bottom: 30px !important; }
+    /* 🚨 메인 타이틀 및 서브타이틀 (1줄 고정 추가) */
+    .title-glow { 
+        text-align: center !important; 
+        color: #ffffff !important; 
+        text-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b !important; 
+        font-family: 'Arial Black', sans-serif !important; 
+        font-size: 36px !important; 
+        margin-bottom: 10px !important; 
+        line-height: 1.2 !important;
+        white-space: nowrap !important; /* 한 줄 고정 */
+    }
+    .subtitle-glow { 
+        text-align: center !important; 
+        color: #00ffcc !important; 
+        text-shadow: 0 0 8px #00ffcc !important; 
+        font-weight: bold !important; 
+        font-size: 17px !important; 
+        margin-bottom: 30px !important; 
+        white-space: nowrap !important; /* 한 줄 고정 */
+    }
     
-    /* 🚨 종목별 제목 (42px 확대 + 1줄 고정) */
+    /* 종목별 제목 (42px 확대 + 1줄 고정) */
     .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
     .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
     .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
 
     /* HTML 표(Table) 스타일링 (1줄 고정) */
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 20px; }
-    th { background-color: #262730 !important; color: #ffffff !important; font-size: 22px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
+    table { width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 20px; }
+    th { background-color: #262730 !important; color: #ffffff !important; font-size: 20px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
     td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 18px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
     
     /* 1,2,3위 강조 */
@@ -40,13 +56,13 @@ st.markdown("""
     div.stButton > button:first-child {
         background-color: #262730 !important;
         color: white !important;
-        font-size: 20px !important;
+        font-size: 18px !important;
         font-weight: bold !important;
-        height: 55px !important;
+        height: 50px !important;
         width: 100% !important;
         border-radius: 10px !important;
         border: 1px solid #444444 !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 20px !important;
     }
     div.stButton > button:hover {
         background-color: #ff4b4b !important;
@@ -55,17 +71,17 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. 메인 타이틀
+# 2. 메인 제목 영역
 st.markdown("<div class='title-glow'>👑 금손 3종 경기 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
 
-# 3. 새로고침 버튼
+# 3. 새로고침 버튼 (상단)
 if st.button("새로고침"):
     st.cache_data.clear()
     st.rerun()
 
 # ==========================================
-# 🚨 구글 시트 CSV 링크
+# 🚨 실제 구글 시트 CSV 링크
 URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQV-2yxMLZLhS3qZEFNVGO4UsOS0vIl0SbDOQJ9smkAt5TEfY5h-3h4puEl5ROBotqOqxuv2-NX6mxd/pub?output=csv"
 # ==========================================
 
@@ -80,31 +96,33 @@ def get_data_from_gsheets(url):
 
 df_total = get_data_from_gsheets(URL_SHEET)
 
-# 5. 데이터 렌더링
+# 5. 데이터 렌더링 (세로 레이아웃)
 if df_total is not None and len(df_total.columns) >= 9:
+    # 데이터 분리 및 복사
     data_water = df_total.iloc[:, 0:3].copy()
     data_dart  = df_total.iloc[:, 3:6].copy()
     data_click = df_total.iloc[:, 6:9].copy()
 
+    # 열 이름 강제 설정 ('무게(g)' 적용)
     data_water.columns = ["순위", "이름(소속)", "무게(g)"]
     data_dart.columns  = ["순위", "이름(소속)", "합산점수"]
     data_click.columns = ["순위", "이름(소속)", "클릭수"]
 
-    # 1번 종목
+    # --- 1번 종목 ---
     st.divider()
     st.markdown("<div class='game-title-water'>💧 양치컵 절대 감각</div>", unsafe_allow_html=True)
     st.markdown(data_water.to_html(index=False, escape=False), unsafe_allow_html=True)
 
-    # 2번 종목
+    # --- 2번 종목 ---
     st.divider()
     st.markdown("<div class='game-title-dart'>🎯 덴탈 스나이퍼</div>", unsafe_allow_html=True)
     st.markdown(data_dart.to_html(index=False, escape=False), unsafe_allow_html=True)
 
-    # 3번 종목
+    # --- 3번 종목 ---
     st.divider()
     st.markdown("<div class='game-title-click'>🖱️ 15초 광클</div>", unsafe_allow_html=True)
     st.markdown(data_click.to_html(index=False, escape=False), unsafe_allow_html=True)
     st.divider()
 
 else:
-    st.error("데이터를 불러올 수 없습니다. 시트 링크와 형식을 확인해 주세요!")
+    st.error("데이터를 불러올 수 없습니다. 구글 시트 링크나 열 개수를 확인해 주세요!")
