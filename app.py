@@ -1,22 +1,32 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 
 # 1. 페이지 기본 설정
 st.set_page_config(page_title="전치제 금손 3종 랭킹", page_icon="👑", layout="centered")
 
-# --- 모바일 확대/축소 허용 및 CSS 스타일링 ---
-st.markdown("""
+# 🚨 스트림릿의 모바일 확대 방지 설정을 강제로 무력화하는 특수 스크립트
+components.html(
+    """
     <script>
-        var viewport = document.querySelector("meta[name=viewport]");
-        if (viewport) {
-            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
-        }
+    // 부모 웹페이지의 메타 태그를 찾아서 확대(줌)를 강제로 허용함
+    const viewport = window.parent.document.querySelector('meta[name=viewport]');
+    if (viewport) {
+        viewport.content = 'width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0';
+    }
     </script>
+    """,
+    height=0,
+    width=0
+)
+
+# --- CSS 스타일링 ---
+st.markdown("""
     <style>
     /* 전체 배경 다크 모드 고정 */
     .stApp { background-color: #0e1117 !important; }
     
-    /* 🚨 메인 타이틀 및 서브타이틀 (1줄 고정 추가) */
+    /* 메인 타이틀 및 서브타이틀 */
     .title-glow { 
         text-align: center !important; 
         color: #ffffff !important; 
@@ -25,7 +35,7 @@ st.markdown("""
         font-size: 36px !important; 
         margin-bottom: 10px !important; 
         line-height: 1.2 !important;
-        white-space: nowrap !important; /* 한 줄 고정 */
+        white-space: nowrap !important;
     }
     .subtitle-glow { 
         text-align: center !important; 
@@ -34,15 +44,15 @@ st.markdown("""
         font-weight: bold !important; 
         font-size: 17px !important; 
         margin-bottom: 30px !important; 
-        white-space: nowrap !important; /* 한 줄 고정 */
+        white-space: nowrap !important;
     }
     
-    /* 종목별 제목 (42px 확대 + 1줄 고정) */
+    /* 종목별 제목 */
     .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
     .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
     .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
 
-    /* HTML 표(Table) 스타일링 (1줄 고정) */
+    /* HTML 표(Table) 스타일링 */
     table { width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 20px; }
     th { background-color: #262730 !important; color: #ffffff !important; font-size: 20px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
     td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 18px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
@@ -75,7 +85,7 @@ st.markdown("""
 st.markdown("<div class='title-glow'>👑 금손 3종 경기 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
 
-# 3. 새로고침 버튼 (상단)
+# 3. 새로고침 버튼
 if st.button("새로고침"):
     st.cache_data.clear()
     st.rerun()
@@ -96,14 +106,14 @@ def get_data_from_gsheets(url):
 
 df_total = get_data_from_gsheets(URL_SHEET)
 
-# 5. 데이터 렌더링 (세로 레이아웃)
+# 5. 데이터 렌더링
 if df_total is not None and len(df_total.columns) >= 9:
-    # 데이터 분리 및 복사
+    # 데이터 분리
     data_water = df_total.iloc[:, 0:3].copy()
     data_dart  = df_total.iloc[:, 3:6].copy()
     data_click = df_total.iloc[:, 6:9].copy()
 
-    # 열 이름 강제 설정 ('무게(g)' 적용)
+    # 열 이름 강제 설정
     data_water.columns = ["순위", "이름(소속)", "무게(g)"]
     data_dart.columns  = ["순위", "이름(소속)", "합산점수"]
     data_click.columns = ["순위", "이름(소속)", "클릭수"]
@@ -113,9 +123,9 @@ if df_total is not None and len(df_total.columns) >= 9:
     st.markdown("<div class='game-title-water'>💧 양치컵 절대 감각</div>", unsafe_allow_html=True)
     st.markdown(data_water.to_html(index=False, escape=False), unsafe_allow_html=True)
 
-    # --- 2번 종목 ---
+    # --- 2번 종목 (이름 변경: 덴탈 스나이퍼 -> 다트 양궁) ---
     st.divider()
-    st.markdown("<div class='game-title-dart'>🎯 덴탈 스나이퍼</div>", unsafe_allow_html=True)
+    st.markdown("<div class='game-title-dart'>🎯 다트 양궁</div>", unsafe_allow_html=True)
     st.markdown(data_dart.to_html(index=False, escape=False), unsafe_allow_html=True)
 
     # --- 3번 종목 ---
