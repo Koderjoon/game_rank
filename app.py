@@ -107,11 +107,6 @@ st.markdown("""
 st.markdown("<div class='title-glow'>👑 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
 
-# 3. 새로고침 버튼 (상단)
-if st.button("새로고침"):
-    st.cache_data.clear()
-    st.rerun()
-
 # ==========================================
 # 🚨 실제 구글 시트 CSV 링크
 URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQV-2yxMLZLhS3qZEFNVGO4UsOS0vIl0SbDOQJ9smkAt5TEfY5h-3h4puEl5ROBotqOqxuv2-NX6mxd/pub?output=csv"
@@ -142,7 +137,7 @@ if df_total is not None and len(df_total.columns) >= 9:
 
     # --- 1번 종목 ---
     st.divider()
-    st.markdown("<div class='game-title-water'>💧 양치컵 절대 감각</div>", unsafe_allow_html=True)
+    st.markdown("<div class='game-title-water'>💧 양치컵 333g </div>", unsafe_allow_html=True)
     st.markdown(data_water.to_html(index=False, escape=False), unsafe_allow_html=True)
 
     # --- 2번 종목 ---
