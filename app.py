@@ -5,11 +5,10 @@ import pandas as pd
 # 1. 페이지 기본 설정
 st.set_page_config(page_title="전치제 금손 3종 랭킹", page_icon="👑", layout="centered")
 
-# 🚨 스트림릿의 모바일 확대 방지 설정을 강제로 무력화하는 특수 스크립트
+# 🚨 스트림릿 모바일 확대 방지 무력화 스크립트
 components.html(
     """
     <script>
-    // 부모 웹페이지의 메타 태그를 찾아서 확대(줌)를 강제로 허용함
     const viewport = window.parent.document.querySelector('meta[name=viewport]');
     if (viewport) {
         viewport.content = 'width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0';
@@ -23,6 +22,14 @@ components.html(
 # --- CSS 스타일링 ---
 st.markdown("""
     <style>
+    /* 🚨 전체 화면 가로 폭을 모바일 사이즈(최대 450px)로 강제 고정 및 가운데 정렬 */
+    .block-container {
+        max-width: 450px !important;
+        margin: 0 auto !important;
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
     /* 전체 배경 다크 모드 고정 */
     .stApp { background-color: #0e1117 !important; }
     
@@ -32,7 +39,7 @@ st.markdown("""
         color: #ffffff !important; 
         text-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b !important; 
         font-family: 'Arial Black', sans-serif !important; 
-        font-size: 36px !important; 
+        font-size: 34px !important; 
         margin-bottom: 10px !important; 
         line-height: 1.2 !important;
         white-space: nowrap !important;
@@ -42,25 +49,25 @@ st.markdown("""
         color: #00ffcc !important; 
         text-shadow: 0 0 8px #00ffcc !important; 
         font-weight: bold !important; 
-        font-size: 17px !important; 
+        font-size: 16px !important; 
         margin-bottom: 30px !important; 
         white-space: nowrap !important;
     }
     
-    /* 종목별 제목 */
-    .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
-    .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
-    .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 42px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
+    /* 종목별 제목 (모바일 폭에 꽉 차게 38px로 조정 + 1줄 고정) */
+    .game-title-water { color: #00d2ff !important; text-align: center !important; text-shadow: 0 0 10px #00d2ff !important; font-size: 38px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
+    .game-title-dart { color: #ff3366 !important; text-align: center !important; text-shadow: 0 0 10px #ff3366 !important; font-size: 38px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
+    .game-title-click { color: #ffd32a !important; text-align: center !important; text-shadow: 0 0 10px #ffd32a !important; font-size: 38px !important; font-weight: 900 !important; margin-bottom: 15px !important; white-space: nowrap !important; }
 
-    /* HTML 표(Table) 스타일링 */
+    /* HTML 표(Table) 스타일링 (1줄 고정) */
     table { width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 20px; }
-    th { background-color: #262730 !important; color: #ffffff !important; font-size: 20px !important; padding: 15px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
-    td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 18px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
+    th { background-color: #262730 !important; color: #ffffff !important; font-size: 18px !important; padding: 12px !important; text-align: center !important; border-bottom: 2px solid #ffffff !important; white-space: nowrap !important; }
+    td { background-color: #1e1e1e !important; color: #ffffff !important; font-weight: bold !important; padding: 15px !important; text-align: center !important; border-bottom: 1px solid #333333 !important; white-space: nowrap !important; }
     
     /* 1,2,3위 강조 */
-    tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 32px !important; text-shadow: 0 0 10px #ffd70055 !important; }
-    tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 26px !important; }
-    tbody tr:nth-child(3) td { color: #cd7f32 !important; font-size: 22px !important; }
+    tbody tr:nth-child(1) td { color: #ffd700 !important; font-size: 28px !important; text-shadow: 0 0 10px #ffd70055 !important; }
+    tbody tr:nth-child(2) td { color: #c0c0c0 !important; font-size: 24px !important; }
+    tbody tr:nth-child(3) td { color: #cd7f32 !important; font-size: 20px !important; }
     
     /* 새로고침 버튼 디자인 */
     div.stButton > button:first-child {
@@ -123,7 +130,7 @@ if df_total is not None and len(df_total.columns) >= 9:
     st.markdown("<div class='game-title-water'>💧 양치컵 절대 감각</div>", unsafe_allow_html=True)
     st.markdown(data_water.to_html(index=False, escape=False), unsafe_allow_html=True)
 
-    # --- 2번 종목 (이름 변경: 덴탈 스나이퍼 -> 다트 양궁) ---
+    # --- 2번 종목 ---
     st.divider()
     st.markdown("<div class='game-title-dart'>🎯 다트 양궁</div>", unsafe_allow_html=True)
     st.markdown(data_dart.to_html(index=False, escape=False), unsafe_allow_html=True)
