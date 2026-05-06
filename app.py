@@ -116,11 +116,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 3. 새로고침 버튼 (상단)
-if st.button("새로고침"):
-    st.cache_data.clear()
-    st.rerun()
-
 # 🚨 구글 시트 CSV 링크
 URL_SHEET = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQV-2yxMLZLhS3qZEFNVGO4UsOS0vIl0SbDOQJ9smkAt5TEfY5h-3h4puEl5ROBotqOqxuv2-NX6mxd/pub?output=csv"
 
