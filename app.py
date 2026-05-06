@@ -129,10 +129,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 3. 새로고침 버튼 
-if st.button("새로고침"):
-    st.cache_data.clear()
-    st.rerun()
 
 # ==========================================
 # 🚨 실제 구글 시트 CSV 링크
