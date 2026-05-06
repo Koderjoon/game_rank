@@ -104,7 +104,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 2. 메인 제목 영역
-st.markdown("<div class='title-glow'>👑 금손 3종 경기 실시간 랭킹 👑</div>", unsafe_allow_html=True)
+st.markdown("<div class='title-glow'>👑 실시간 랭킹 👑</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle-glow'>컵과 다트로 증명하는 우리 학교 신의 손끝!</div>", unsafe_allow_html=True)
 
 # 3. 새로고침 버튼 (상단)
